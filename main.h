@@ -32,6 +32,13 @@
 #include "driverlib/pwm.h"
 #include "driverlib/i2c.h"
 
+
+#include "Serial.h"
+#include "Flag.h"
+#include "BlueTooth.h"
+#include "Lights.h"
+#include "main.h"
+
 //中断优先级定义
 #define  USER_INT0  0x00
 #define  USER_INT1  0x20

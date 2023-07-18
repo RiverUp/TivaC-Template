@@ -1,3 +1,4 @@
 #include "Flag.h"
 
-bool SerialCompleteFlag=true;
+bool SerialCompleteFlag;
+bool BluetoothCompleteFlag;

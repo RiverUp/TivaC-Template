@@ -4,10 +4,6 @@
 #include "stdlib.h"
 #include "stdio.h"
 
-#include "Serial.h"
-#include "Flag.h"
-
-
 
 /**
  * main.c
@@ -18,33 +14,52 @@ int main(void)
 	MAP_FPUEnable();
 	MAP_FPULazyStackingEnable();
 
-	// 16mhz
-	SysCtlClockSet( SYSCTL_SYSDIV_5|SYSCTL_USE_PLL|SYSCTL_XTAL_16MHZ|SYSCTL_OSC_MAIN);
+	// 40mhz
+	SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ | SYSCTL_OSC_MAIN);
 
 	IntMasterEnable();
 
 	initSerial();
-
+	initBlueTooth();
 	// 配置小灯用于测试
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_3);
+	initLights();
+	
 
+	// 主循环里进行各个事情的轮询
 	while (1)
 	{
-		// 处理串口指令
+		// 处理电脑串口指令
 		if (SerialCompleteFlag)
 		{
-			if (strcmp(serialDataBuffer, "on") == 0)
+			if (!strcmp(serialDataBuffer, "on"))
 			{
-				 if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_3))
-				 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, 0);
-				 else
-				 	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_3, GPIO_PIN_3);
+				if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_3))
+					turnOffLights(Green);
+				else
+					turnOnLights(Green);
 			}
-			SerialCompleteFlag = false;
 			sendMsgBySerial(serialDataBuffer);
+
+			SerialCompleteFlag = false;
 			memset(serialDataBuffer, 0, SERIAL_BUFFER_SIZE);
 			serialBufferPtr = 0;
+		}
+		// 处理蓝牙指令
+		if (BluetoothCompleteFlag)
+		{
+			// 业务逻辑
+			if(!strcmp(blueToothDataBuffer,"on"))
+			{
+				if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_2))
+					turnOffLights(Blue);
+				else
+					turnOnLights(Blue);
+			}
+			sendMsgByBT(blueToothDataBuffer);
+			
+			BluetoothCompleteFlag = false;
+			memset(blueToothDataBuffer, 0, BLUETOOTH_BUFFER_SIZE);
+			blueToothBufferPtr = 0;
 		}
 	}
 }

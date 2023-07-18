@@ -4,6 +4,8 @@
         "uart.h": "c",
         "serial.h": "c",
         "gpio.h": "c",
-        "i2c.h": "c"
+        "i2c.h": "c",
+        "main.h": "c",
+        "bluetooth.h": "c"
     }
 }

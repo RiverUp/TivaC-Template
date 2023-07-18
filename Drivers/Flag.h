@@ -4,5 +4,6 @@
 #include "stdbool.h"
 
 extern bool SerialCompleteFlag;
+extern bool BluetoothCompleteFlag;
 
 #endif // !__FLAG_H
