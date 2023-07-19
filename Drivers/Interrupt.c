@@ -1,5 +1,14 @@
 #include "main.h"
 #include "math.h"
+
+//控制用的定时器
+void Timer0AIntHandler(void)
+{
+    TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+
+    Control();
+}
+
 // 电脑串口USB
 void UART0IntHandler(void)
 {

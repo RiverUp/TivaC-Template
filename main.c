@@ -27,7 +27,9 @@ int main(void)
 	initSerial();
 	initBlueTooth();
 	initKeys();
-
+	initMotor();
+	initControl();
+	
 
 	// 主循环里进行各个事情的轮询
 	while (1)
@@ -70,7 +72,7 @@ int main(void)
 			// key1单击
 			if (Key1SinglePressedFlag)
 			{
-				sendMsgBySerial("k1sp");
+				turnOnMotor();
 
 				Key1SinglePressedFlag = false;
 			}
@@ -84,7 +86,7 @@ int main(void)
 			// key2单击
 			if (Key2SinglePressedFlag)
 			{
-				sendMsgBySerial("k2sp");
+				turnOffMotor();
 
 				Key2SinglePressedFlag = false;
 			}
@@ -97,6 +99,6 @@ int main(void)
 			}
 		}
 
-		
+
 	}
 }
