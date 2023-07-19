@@ -28,6 +28,7 @@ int main(void)
 	initBlueTooth();
 	initKeys();
 	initMotor();
+	initJY62();
 	initControl();
 	
 
@@ -99,6 +100,13 @@ int main(void)
 			}
 		}
 
+		if(AngelReadOnceFlag)
+		{
+			char angleText[30];
+			sprintf(angleText,"Roll: %.2f Pitch: %.2f Yaw: %.2f",Roll,Pitch,Yaw);
+			sendMsgBySerial(angleText);
 
+			AngelReadOnceFlag = false;
+		}
 	}
 }
