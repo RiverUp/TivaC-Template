@@ -5,5 +5,6 @@
 
 extern bool SerialCompleteFlag;
 extern bool BluetoothCompleteFlag;
+extern bool Key1SinglePressedFlag, Key1DoublePressedFlag, Key2SinglePressedFlag, Key2DoublePressedFlag;
 
 #endif // !__FLAG_H

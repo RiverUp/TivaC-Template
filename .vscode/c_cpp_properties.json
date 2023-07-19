@@ -5,6 +5,7 @@
             "includePath": [
                 ".\\DriverLib",
                 ".\\Drivers",
+                ".\\Control",
                 "E:\\programs\\CCS\\cs\\tools\\compiler\\ti-cgt-arm_20.2.7.LTS\\include",
                 "${workspaceFolder}"
             ],

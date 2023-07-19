@@ -37,7 +37,9 @@
 #include "Flag.h"
 #include "BlueTooth.h"
 #include "Lights.h"
-#include "main.h"
+#include "OpenmvTrack.h"
+#include "Control.h"
+#include "Key.h"
 
 //中断优先级定义
 #define  USER_INT0  0x00

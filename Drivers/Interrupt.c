@@ -1,4 +1,5 @@
 #include "main.h"
+#include "math.h"
 // 电脑串口USB
 void UART0IntHandler(void)
 {
@@ -18,7 +19,7 @@ void UART0IntHandler(void)
     }
 }
 
-//蓝牙串口
+// 蓝牙串口
 void UART1IntHandler(void)
 {
     uint32_t u32IntStatus = UARTIntStatus(UART1_BASE, true);
@@ -38,7 +39,7 @@ void UART1IntHandler(void)
 }
 
 // 循迹Openmv串口
-uint8_t Cx=0,Cy=0,Cw=0,Ch=0,Ci=0;
+uint8_t Cx = 0, Cy = 0, Cw = 0, Ch = 0, Ci = 0;
 void UART2IntHandler(void)
 {
     uint32_t u32IntStatus = UARTIntStatus(UART1_BASE, true);
@@ -91,14 +92,14 @@ void UART2IntHandler(void)
                 if (RxFlag1)
                 {
 
-                    // if (Cw)
-                    //     Track_Bias = Cx;
-                    // else
-                    //     Track_Bias = -Cx;
-                    // if (myabs(Track_Bias) > 200)
-                    // {
-                    //     Track_Bias = 0;
-                    // }
+                    if (Cw)
+                        Track_Bias = Cx;
+                    else
+                        Track_Bias = -Cx;
+                    if (abs(Track_Bias) > 200)
+                    {
+                        Track_Bias = 0;
+                    }
                     // Ci检测是否为路口,计数经过了多少个路口
                 }
                 RxFlag1 = 0;
@@ -126,5 +127,30 @@ void UART2IntHandler(void)
                 RxBuffer1[i] = 0x00; // 将存放数据数组清零
             }
         }
+    }
+}
+
+// 按键检测的中断
+void Timer1AIntHandler(void)
+{
+    TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+
+    int temp1 = key1Pressed(50);
+    int temp2 = key2Pressed(50);
+    if (temp1 == 1)
+    {
+        Key1SinglePressedFlag = true;
+    }
+    else if (temp1 == 2)
+    {
+        Key1DoublePressedFlag = true;
+    }
+    if (temp2 == 1)
+    {
+        Key2SinglePressedFlag = true;
+    }
+    else if (temp2 == 2)
+    {
+        Key2DoublePressedFlag = true;
     }
 }
