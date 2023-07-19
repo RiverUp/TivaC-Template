@@ -41,6 +41,7 @@
 #include "Control.h"
 #include "Key.h"
 #include "Motor.h"
+#include "JY62.h"
 
 //中断优先级定义
 #define  USER_INT0  0x00

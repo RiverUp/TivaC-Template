@@ -44,6 +44,7 @@ extern void _c_int00(void);
 extern void UART0IntHandler(void);
 extern void UART1IntHandler(void);
 extern void UART2IntHandler(void);
+extern void Timer0AIntHandler(void);
 extern void Timer1AIntHandler(void);
 //extern void PWM0Gen0IntHandler(void);
 
@@ -108,7 +109,7 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // ADC Sequence 3
     IntDefaultHandler,                      // Watchdog timer
     IntDefaultHandler,                      // Timer 0 subtimer A
-    IntDefaultHandler,                      // Timer 0 subtimer B
+    Timer0AIntHandler,                      // Timer 0 subtimer B
     Timer1AIntHandler,                      // Timer 1 subtimer A
     IntDefaultHandler,                      // Timer 1 subtimer B
     IntDefaultHandler,                      // Timer 2 subtimer A
