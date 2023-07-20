@@ -4,8 +4,8 @@
 int command1[3] = {0xff, 0xaa, 0x52};
 // 加速度计校准
 int command2[3] = {0xff, 0xaa, 0x67};
-
 float Roll,Pitch,Yaw;
+
 
 void initJY62()
 {
@@ -22,12 +22,12 @@ void initJY62()
     UARTIntEnable(UART5_BASE, UART_INT_RX);
 
     //初始化校准
-    sendCommand(command1);
-    sendCommand(command2);
+    sendJY62Command(command1);
+    sendJY62Command(command2);
 
 }
 
-void sendCommand(int *command)
+void sendJY62Command(int *command)
 {
     while (*command)
     {

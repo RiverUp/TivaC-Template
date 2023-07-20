@@ -30,7 +30,6 @@ int main(void)
 	initMotor();
 	initJY62();
 	initControl();
-	
 
 	// 主循环里进行各个事情的轮询
 	while (1)
@@ -100,13 +99,14 @@ int main(void)
 			}
 		}
 
-		if(AngelReadOnceFlag)
+		if (AngleReadOnceFlag)
 		{
-			char angleText[30];
-			sprintf(angleText,"Roll: %.2f Pitch: %.2f Yaw: %.2f",Roll,Pitch,Yaw);
-			sendMsgBySerial(angleText);
+			 char angleText[40];
+			 sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+			 		(int)Roll, (int)Pitch, (int)Yaw);
+			 sendMsgBySerial(angleText);
 
-			AngelReadOnceFlag = false;
+			AngleReadOnceFlag = false;
 		}
 	}
 }

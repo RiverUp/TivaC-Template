@@ -1,6 +1,8 @@
 #include "Control.h"
 
 int Track_Bias;
+int Base_Velocity = 6000;
+int Track_Turn_Kp = 40;
 
 void initControl()
 {
@@ -15,6 +17,7 @@ void initControl()
 
 void Control()
 {
+    
 }
 
 void limitPWM(int input, int max, int min)
@@ -30,6 +33,12 @@ void limitPWM(int input, int max, int min)
     return output;
 }
 
-void Turn()
+int trackTurn(float bias)
 {
+    static float turn, general_bias, last_bias;
+    general_bias = 0.84 * bias + 0.16 * last_bias;
+
+    turn = general_bias * Track_Turn_Kp;
+
+    return turn;
 }

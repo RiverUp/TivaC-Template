@@ -73,7 +73,7 @@ void UART1IntHandler(void)
 }
 
 // 循迹Openmv串口
-uint8_t Cx = 0, Cy = 0, Cw = 0, Ch = 0, Ci = 0;
+uint8_t Cx = 0, Cy = 0, Ci = 0;
 void UART2IntHandler(void)
 {
     uint32_t u32IntStatus = UARTIntStatus(UART1_BASE, true);
@@ -82,7 +82,7 @@ void UART2IntHandler(void)
     uint8_t com_data;
     uint8_t i;
     static uint8_t RxCounter1 = 0;
-    static uint16_t RxBuffer1[12] = {0};
+    static uint16_t RxBuffer1[6] = {0};
     static uint8_t RxState = 0;
     static uint8_t RxFlag1 = 0;
 
@@ -106,15 +106,13 @@ void UART2IntHandler(void)
         {
             RxBuffer1[RxCounter1++] = com_data;
 
-            if (RxCounter1 >= 11 || com_data == 0x5B) // RxBuffer1接受满了,接收数据结束
+            if (RxCounter1 >= 6 || com_data == 0x5B) // RxBuffer1接受满了,接收数据结束
             {
                 RxState = 3;
                 RxFlag1 = 1;
 
-                Cx = RxBuffer1[RxCounter1 - 6];
-                Cy = RxBuffer1[RxCounter1 - 5];
-                Cw = RxBuffer1[RxCounter1 - 4];
-                Ch = RxBuffer1[RxCounter1 - 3];
+                Cx = RxBuffer1[RxCounter1 - 4];
+                Cy = RxBuffer1[RxCounter1 - 3];
                 Ci = RxBuffer1[RxCounter1 - 2];
             }
         }
@@ -126,7 +124,7 @@ void UART2IntHandler(void)
                 if (RxFlag1)
                 {
 
-                    if (Cw)
+                    if (Cy)
                         Track_Bias = Cx;
                     else
                         Track_Bias = -Cx;
@@ -164,7 +162,8 @@ void UART2IntHandler(void)
     }
 }
 
-uint8_t RollH, RollL, PitchH, PitchL, YawH, YawL, VH, VL, CheckBit;
+uint8_t RollH, RollL, PitchH, PitchL, YawH, YawL, VH, VL, CheckBit, Sum;
+// char CheckBit,Sum;
 void UART5IntHandler(void)
 {
     uint8_t com_data;
@@ -178,6 +177,7 @@ void UART5IntHandler(void)
 
     if (u32IntStatus & UART_INT_RX)
     {
+
         com_data = UARTCharGet(UART5_BASE);
         if (RxState == 0 && com_data == 0x55)
         {
@@ -192,7 +192,6 @@ void UART5IntHandler(void)
         else if (RxState == 2)
         {
             RxBuffer1[RxCounter1++] = com_data;
-
             if (RxCounter1 >= 11)
             {
                 RxState = 3;
@@ -207,28 +206,36 @@ void UART5IntHandler(void)
                 VL = RxBuffer1[RxCounter1 - 3];
                 VH = RxBuffer1[RxCounter1 - 2];
                 CheckBit = RxBuffer1[RxCounter1 - 1];
+                Sum = 0x55 + 0x53 + RollH + RollL + PitchH + PitchL + YawL + YawH + VL + VH;
             }
         }
         else if (RxState == 3)
         {
-            if (CheckBit == 0x55 + 0x53 + RollH + RollL + PitchH + PitchL + YawL + YawH + VL + VH)
+            if (CheckBit == Sum && !AngleReadOnceFlag)
             {
-                IntDisable(UART5_BASE);
+
                 if (RxFlag1)
                 {
                     // 业务逻辑，取值的处理
-                    Roll = ((RollH << 8) | RollL) / 32768 * 180;
-                    Pitch = ((PitchH << 8) | PitchL) / 32768 * 180;
-                    Yaw = ((YawH << 8) | YawL) / 32768 * 180;
-                    AngelReadOnceFlag = true;
+                    short data1, data2, data3;
+                    data1 = (short)(((short)RollH << 8) | RollL);
+                    data2 = (short)(((short)PitchH << 8) | PitchL);
+                    data3 = (short)(((short)YawH << 8) | YawL);
+
+                    Roll = 1.0*data1 / 32768 * 180;
+                    Pitch = 1.0*data2 / 32768 * 180;
+                    Yaw = 1.0*data3 / 32768 * 180;
+
+                    AngleReadOnceFlag = true;
                 }
                 RxFlag1 = 0;
                 RxCounter1 = 0;
                 RxState = 0;
-                IntEnable(UART5_BASE);
+                //                IntEnable(UART5_BASE);
             }
             else // 接收错误
             {
+
                 RxState = 0;
                 RxCounter1 = 0;
                 for (i = 0; i < 10; i++)
