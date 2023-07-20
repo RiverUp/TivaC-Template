@@ -8,7 +8,9 @@
         "main.h": "c",
         "bluetooth.h": "c",
         "control.h": "c",
-        "pin_map.h": "c"
+        "pin_map.h": "c",
+        "openmvtrack.h": "c",
+        "math.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

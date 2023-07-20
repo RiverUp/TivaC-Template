@@ -3,6 +3,6 @@
 
 #include "main.h"
 
-void initOpenmnTrack();
+void initOpenmvTrack();
 
 #endif // !__OPENMVTRACK_H

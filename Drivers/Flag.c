@@ -7,3 +7,4 @@ bool Key1DoublePressedFlag;
 bool Key2SinglePressedFlag;
 bool Key2DoublePressedFlag;
 bool AngleReadOnceFlag;
+bool OpenmvTrackReadOnceFlag;

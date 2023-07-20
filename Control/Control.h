@@ -9,6 +9,6 @@ extern int Track_Bias;
 void initControl();
 void Control();
 int trackTurn(float bias);
-void limitPWM(int input,int max,int min);
+int limitPWM(int input,int max,int min);
 
 #endif // !__CONTROL_H

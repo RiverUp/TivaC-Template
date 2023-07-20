@@ -1,6 +1,6 @@
 #include "OpenmvTrack.h"
 
-void initOpenmnTrack()
+void initOpenmvTrack()
 {
     SysCtlPeripheralEnable(SYSCTL_PERIPH_UART2);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);

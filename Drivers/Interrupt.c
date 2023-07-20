@@ -76,8 +76,8 @@ void UART1IntHandler(void)
 uint8_t Cx = 0, Cy = 0, Ci = 0;
 void UART2IntHandler(void)
 {
-    uint32_t u32IntStatus = UARTIntStatus(UART1_BASE, true);
-    UARTIntClear(UART1_BASE, u32IntStatus);
+    uint32_t u32IntStatus = UARTIntStatus(UART2_BASE, true);
+    UARTIntClear(UART2_BASE, u32IntStatus);
 
     uint8_t com_data;
     uint8_t i;
@@ -91,7 +91,7 @@ void UART2IntHandler(void)
         com_data = UARTCharGet(UART2_BASE);
         if (RxState == 0 && com_data == 0x2C) // 0x2c帧头
         {
-
+            // sendMsgBySerial("openmv");
             RxState = 1;
             RxBuffer1[RxCounter1++] = com_data;
         }
@@ -132,6 +132,8 @@ void UART2IntHandler(void)
                     {
                         Track_Bias = 0;
                     }
+
+                    OpenmvTrackReadOnceFlag = true;
                     // Ci检测是否为路口,计数经过了多少个路口
                 }
                 RxFlag1 = 0;
@@ -143,7 +145,7 @@ void UART2IntHandler(void)
             {
                 RxState = 0;
                 RxCounter1 = 0;
-                for (i = 0; i < 10; i++)
+                for (i = 0; i < 6; i++)
                 {
                     RxBuffer1[i] = 0x00; // 将存放数据数组清零
                 }
@@ -154,7 +156,7 @@ void UART2IntHandler(void)
         {
             RxState = 0;
             RxCounter1 = 0;
-            for (i = 0; i < 10; i++)
+            for (i = 0; i < 6; i++)
             {
                 RxBuffer1[i] = 0x00; // 将存放数据数组清零
             }
@@ -162,8 +164,8 @@ void UART2IntHandler(void)
     }
 }
 
+// jy62
 uint8_t RollH, RollL, PitchH, PitchL, YawH, YawL, VH, VL, CheckBit, Sum;
-// char CheckBit,Sum;
 void UART5IntHandler(void)
 {
     uint8_t com_data;
@@ -222,9 +224,9 @@ void UART5IntHandler(void)
                     data2 = (short)(((short)PitchH << 8) | PitchL);
                     data3 = (short)(((short)YawH << 8) | YawL);
 
-                    Roll = 1.0*data1 / 32768 * 180;
-                    Pitch = 1.0*data2 / 32768 * 180;
-                    Yaw = 1.0*data3 / 32768 * 180;
+                    Roll = 1.0 * data1 / 32768 * 180;
+                    Pitch = 1.0 * data2 / 32768 * 180;
+                    Yaw = 1.0 * data3 / 32768 * 180;
 
                     AngleReadOnceFlag = true;
                 }

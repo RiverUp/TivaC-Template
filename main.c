@@ -29,8 +29,8 @@ int main(void)
 	initKeys();
 	initMotor();
 	initJY62();
+	initOpenmvTrack();
 	initControl();
-
 	// 主循环里进行各个事情的轮询
 	while (1)
 	{
@@ -98,15 +98,24 @@ int main(void)
 				Key2DoublePressedFlag = false;
 			}
 		}
-
+		//接受到一次jy62数据包
 		if (AngleReadOnceFlag)
 		{
-			 char angleText[40];
-			 sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
-			 		(int)Roll, (int)Pitch, (int)Yaw);
-			 sendMsgBySerial(angleText);
+			// char angleText[40];
+			// sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+			// 		(int)Roll, (int)Pitch, (int)Yaw);
+			// sendMsgBySerial(angleText);
 
 			AngleReadOnceFlag = false;
+		}
+		//接受到一次循迹openmv数据包
+		if (OpenmvTrackReadOnceFlag)
+		{
+			// char trackText[40];
+			// sprintf(trackText, "trackBias: %d", Track_Bias);
+			// sendMsgBySerial(trackText);
+
+			OpenmvTrackReadOnceFlag = false;
 		}
 	}
 }

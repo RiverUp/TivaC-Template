@@ -42,6 +42,7 @@
 #include "Key.h"
 #include "Motor.h"
 #include "JY62.h"
+#include "DelayStruct.h"
 
 //中断优先级定义
 #define  USER_INT0  0x00
