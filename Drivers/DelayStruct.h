@@ -1,11 +1,14 @@
 #ifndef __DELAYSTRUCT_H
 #define __DELAYSTRUCT_H
 
-typedef struct DelayStruct
+#include "main.h"
+struct DelayStruct
 {
-    bool delayFlag;
-    int delayCount;
-    int delayTimes;
-}
+    char *name;
+    bool flag;
+    int count;
+    int times;
+    bool trigger;
+};
 
 #endif // !__DELAYSTRUCT_H

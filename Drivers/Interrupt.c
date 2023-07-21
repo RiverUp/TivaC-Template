@@ -1,5 +1,6 @@
 #include "main.h"
 #include "math.h"
+#include "DelayStruct.h"
 
 // 控制用的定时器
 void Timer0AIntHandler(void)
@@ -123,7 +124,6 @@ void UART2IntHandler(void)
                 // USART_ITConfig(USART2, USART_IT_RXNE, DISABLE); // 关闭DTSABLE中断
                 if (RxFlag1)
                 {
-
                     if (Cy)
                         Track_Bias = Cx;
                     else
@@ -132,7 +132,10 @@ void UART2IntHandler(void)
                     {
                         Track_Bias = 0;
                     }
-
+                    if (Ci)
+                    {
+                        CrossPassDelayFlag.flag = true;
+                    }
                     OpenmvTrackReadOnceFlag = true;
                     // Ci检测是否为路口,计数经过了多少个路口
                 }

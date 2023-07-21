@@ -72,21 +72,27 @@ int main(void)
 			// key1单击
 			if (Key1SinglePressedFlag)
 			{
+				Basic_Velocity = 0;
 				turnOnMotor();
+				setRotateTarget(90, RIGHT, Yaw);
 
 				Key1SinglePressedFlag = false;
 			}
 			// key1双击
 			if (Key1DoublePressedFlag)
 			{
-				sendMsgBySerial("k1dp");
+				Basic_Velocity = 0.9;
+
+				turnOnMotor();
 
 				Key1DoublePressedFlag = false;
 			}
 			// key2单击
 			if (Key2SinglePressedFlag)
 			{
-				turnOffMotor();
+				Basic_Velocity = 0;
+				turnOnMotor();
+				setRotateTarget(90, LEFT, Yaw);
 
 				Key2SinglePressedFlag = false;
 			}
@@ -98,17 +104,17 @@ int main(void)
 				Key2DoublePressedFlag = false;
 			}
 		}
-		//接受到一次jy62数据包
+		// 接受到一次jy62数据包
 		if (AngleReadOnceFlag)
 		{
-			// char angleText[40];
-			// sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
-			// 		(int)Roll, (int)Pitch, (int)Yaw);
-			// sendMsgBySerial(angleText);
+			char angleText[40];
+			sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+					(int)Roll, (int)Pitch, (int)Yaw);
+			sendMsgBySerial(angleText);
 
 			AngleReadOnceFlag = false;
 		}
-		//接受到一次循迹openmv数据包
+		// 接受到一次循迹openmv数据包
 		if (OpenmvTrackReadOnceFlag)
 		{
 			// char trackText[40];
