@@ -5,6 +5,7 @@ float Basic_Velocity = 500;
 int Velocity_PWM;
 int Track_Turn_PWM, Rotate_Turn_PWM;
 float Track_Turn_Kp = 300, Rotate_Turn_Kp = 300;
+int CrossNum;
 
 void initControl()
 {
@@ -19,11 +20,13 @@ void initControl()
 
 void Control()
 {
+    if (CrossPassDelayFlag.flag)
+        passCross();
+
     // Track_Bias为正，，左轮加速
-    // Track_Turn_PWM = trackTurn(Track_Bias);
+    Track_Turn_PWM = trackTurn(Track_Bias);
     Velocity_PWM = Basic_Velocity;
     Rotate_Turn_PWM = rotateTurn();
-    // 是否有旋转指令
 
     int Motor_Left = Velocity_PWM + Track_Turn_PWM + Rotate_Turn_PWM;
     int Motor_Right = Velocity_PWM - Track_Turn_PWM - Rotate_Turn_PWM;
@@ -51,14 +54,14 @@ int trackTurn(float bias)
     static float turn, general_bias, last_bias;
     general_bias = 0.16 * bias + 0.84 * last_bias;
 
-    turn = general_bias * Track_Turn_Kp / 90;
+    turn = general_bias * Track_Turn_Kp / 10;
 
     return turn;
 }
 
 void passCross()
 {
-    countDelay(CrossPassDelayFlag);
+    countDelay(&CrossPassDelayFlag);
     if (CrossPassDelayFlag.trigger)
     {
         Basic_Velocity = 0;
@@ -78,18 +81,20 @@ int rotateTurn()
     if (general_bias < 4)
     {
         RotateRightFlag = RotateLeftFlag = false;
+        Basic_Velocity = 500;
         return 0;
     }
     last_bias = general_bias;
     // 旋转的时候不循迹
-    Track_Turn_PWM = 0;
     if (RotateLeftFlag)
     {
         turn = -general_bias * Rotate_Turn_Kp / 20;
+        Track_Turn_PWM = 0;
     }
     else if (RotateRightFlag)
     {
         turn = general_bias * Rotate_Turn_Kp / 20;
+        Track_Turn_PWM = 0;
     }
     else
     {

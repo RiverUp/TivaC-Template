@@ -8,6 +8,7 @@
 
 extern int Track_Bias;
 extern float Basic_Velocity;
+extern int CrossNum;
 
 // 初始化一个timer进行pwm控制
 void initControl();

@@ -9,32 +9,33 @@ bool Key2DoublePressedFlag;
 bool AngleReadOnceFlag;
 bool OpenmvTrackReadOnceFlag;
 bool RotateLeftFlag, RotateRightFlag;
+bool CountDistanceBeginFlag,CountDistanceEndFlag;
 
 struct DelayStruct CrossPassDelayFlag;
 
 void initDelayStructs()
 {
-    createDelayStruct(CrossPassDelayFlag, "crosspassDelay", 100);
+    createDelayStruct(&CrossPassDelayFlag, "crosspassDelay", 350);
 }
 
-void countDelay(struct DelayStruct delayStruct)
+void countDelay(struct DelayStruct *delayStruct)
 {
-    if (delayStruct.flag)
+    if (delayStruct->flag)
     {
-        delayStruct.count++;
-        if (delayStruct.count >= delayStruct.times)
+        delayStruct->count++;
+        if (delayStruct->count >= delayStruct->times)
         {
-            delayStruct.flag = false;
-            delayStruct.trigger = true;
+            delayStruct->flag = false;
+            delayStruct->trigger = true;
         }
     }
 }
 
-void createDelayStruct(struct DelayStruct delayStruct, char *name, int times)
+void createDelayStruct(struct DelayStruct *delayStruct, char *name, int times)
 {
-    delayStruct.count = 0;
-    delayStruct.times = times;
-    delayStruct.flag = false;
-    delayStruct.name = name;
-    delayStruct.trigger = false;
+    delayStruct->count = 0;
+    delayStruct->times = times;
+    delayStruct->flag = false;
+    delayStruct->name = name;
+    delayStruct->trigger = false;
 }

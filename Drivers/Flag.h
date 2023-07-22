@@ -10,9 +10,10 @@ extern bool Key1SinglePressedFlag, Key1DoublePressedFlag, Key2SinglePressedFlag,
 extern bool AngleReadOnceFlag;
 extern bool OpenmvTrackReadOnceFlag;
 extern bool RotateLeftFlag, RotateRightFlag;
+extern bool CountDistanceBeginFlag, CountDistanceEndFlag;
 extern struct DelayStruct CrossPassDelayFlag;
 
-void countDelay(struct DelayStruct delayStruct);
-void createDelayStruct(struct DelayStruct delayStruct, char *name, int times);
+void countDelay(struct DelayStruct *delayStruct);
+void createDelayStruct(struct DelayStruct *delayStruct, char *name, int times);
 void initDelayStructs();
 #endif // !__FLAG_H

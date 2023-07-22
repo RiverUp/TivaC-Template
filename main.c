@@ -30,8 +30,14 @@ int main(void)
 	initMotor();
 	initJY62();
 	initOpenmvTrack();
+	initDelayStructs();
+	initHcsr04();
 	initControl();
-	// 主循环里进行各个事情的轮询
+
+	triggerHcsr04();
+
+	// turnOnMotor();
+	//  主循环里进行各个事情的轮询
 	while (1)
 	{
 		// 处理电脑串口指令
@@ -72,27 +78,21 @@ int main(void)
 			// key1单击
 			if (Key1SinglePressedFlag)
 			{
-				Basic_Velocity = 0;
+				// CrossPassDelayFlag.flag = true;
 				turnOnMotor();
-				setRotateTarget(90, RIGHT, Yaw);
 
 				Key1SinglePressedFlag = false;
 			}
 			// key1双击
 			if (Key1DoublePressedFlag)
 			{
-				Basic_Velocity = 0.9;
-
-				turnOnMotor();
 
 				Key1DoublePressedFlag = false;
 			}
 			// key2单击
 			if (Key2SinglePressedFlag)
 			{
-				Basic_Velocity = 0;
-				turnOnMotor();
-				setRotateTarget(90, LEFT, Yaw);
+				turnOffMotor();
 
 				Key2SinglePressedFlag = false;
 			}
@@ -107,21 +107,33 @@ int main(void)
 		// 接受到一次jy62数据包
 		if (AngleReadOnceFlag)
 		{
-			char angleText[40];
-			sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
-					(int)Roll, (int)Pitch, (int)Yaw);
-			sendMsgBySerial(angleText);
+			//			char angleText[40];
+			//			sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+			//					(int)Roll, (int)Pitch, (int)Yaw);
+			//			sendMsgBySerial(angleText);
 
 			AngleReadOnceFlag = false;
 		}
 		// 接受到一次循迹openmv数据包
 		if (OpenmvTrackReadOnceFlag)
 		{
-			// char trackText[40];
-			// sprintf(trackText, "trackBias: %d", Track_Bias);
-			// sendMsgBySerial(trackText);
+			char trackText[40];
+			sprintf(trackText, "trackBias: %d", Track_Bias);
+			sendMsgBySerial(trackText);
 
 			OpenmvTrackReadOnceFlag = false;
+		}
+		//超声回传了一次
+		if (CountDistanceEndFlag)
+		{
+			char distanceText[40];
+			distance = distanceCount * 0.00017 * 2.5;
+			sprintf(distanceText, "Distance: %d\r\n", (int)distance);
+			sendMsgBySerial(distanceText);
+			distanceCount = 0;
+			triggerHcsr04();
+
+			CountDistanceEndFlag = false;
 		}
 	}
 }

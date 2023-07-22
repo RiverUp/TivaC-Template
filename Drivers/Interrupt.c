@@ -35,6 +35,14 @@ void Timer1AIntHandler(void)
     }
 }
 
+// 超声波长时间未返回直接开始下一次计数
+void Timer2AIntHandler(void)
+{
+    TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+
+    triggerHcsr04();
+}
+
 // 电脑串口USB
 void UART0IntHandler(void)
 {
@@ -134,7 +142,12 @@ void UART2IntHandler(void)
                     }
                     if (Ci)
                     {
-                        CrossPassDelayFlag.flag = true;
+                        if (!CrossPassDelayFlag.flag)
+                        {
+                            CrossNum++;
+                            if (CrossNum == 1)
+                                CrossPassDelayFlag.flag = true;
+                        }
                     }
                     OpenmvTrackReadOnceFlag = true;
                     // Ci检测是否为路口,计数经过了多少个路口
@@ -257,6 +270,28 @@ void UART5IntHandler(void)
             {
                 RxBuffer1[i] = 0x00; // 将存放数据数组清零
             }
+        }
+    }
+}
+void GPIOAIntHandler(void)
+{
+    uint32_t u32IntStatus = GPIOIntStatus(GPIO_PORTA_BASE, 0);
+    GPIOIntClear(GPIO_PORTA_BASE, u32IntStatus);
+    if (u32IntStatus & GPIO_INT_PIN_7)
+    {
+        if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_7) == 0)
+        {
+            CountDistanceEndFlag = true;
+            distanceCount = SysCtlClockGet() / (4 * 100) - TimerValueGet(TIMER2_BASE, TIMER_A);
+        }
+        else
+        {
+            TimerLoadSet(TIMER2_BASE, TIMER_A, (SysCtlClockGet() / (4 * 100)));
+            // int initCount = TimerValueGet(TIMER2_BASE, TIMER_A);
+            // char distanceText[40];
+            // sprintf(distanceText, "distance: %d\r\n", initCount);
+            // sendMsgBySerial(distanceText);
+            TimerEnable(TIMER2_BASE, TIMER_A);
         }
     }
 }

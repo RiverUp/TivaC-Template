@@ -11,7 +11,8 @@
         "pin_map.h": "c",
         "openmvtrack.h": "c",
         "math.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "lights.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
