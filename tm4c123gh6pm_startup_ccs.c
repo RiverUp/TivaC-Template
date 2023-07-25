@@ -49,6 +49,7 @@ extern void Timer0AIntHandler(void);
 extern void Timer1AIntHandler(void);
 extern void Timer2AIntHandler(void);
 extern void GPIOAIntHandler(void);
+extern void GPIOEIntHandler(void);
 // extern void PWM0Gen0IntHandler(void);
 
 //*****************************************************************************
@@ -96,7 +97,7 @@ void (*const g_pfnVectors[])(void) =
         IntDefaultHandler, // GPIO Port B
         IntDefaultHandler, // GPIO Port C
         IntDefaultHandler, // GPIO Port D
-        IntDefaultHandler, // GPIO Port E
+        GPIOEIntHandler,   // GPIO Port E
         UART0IntHandler,   // UART0 Rx and Tx
         UART1IntHandler,   // UART1 Rx and Tx
         IntDefaultHandler, // SSI0 Rx and Tx

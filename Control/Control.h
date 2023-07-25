@@ -1,9 +1,6 @@
 #ifndef __CONTROL_H
 #define __CONTROL_H
 
-#define RIGHT 0
-#define LEFT 1
-
 #include "main.h"
 
 extern int Track_Bias;
@@ -18,5 +15,6 @@ int limitPWM(int input, int max, int min);
 void passCross();
 int rotateTurn();
 void setRotateTarget(int angle, bool direction, int current_yaw);
+int velocity(int encoderLeft, int encoderRight);
 
 #endif // !__CONTROL_H

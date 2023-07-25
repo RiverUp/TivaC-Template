@@ -273,6 +273,8 @@ void UART5IntHandler(void)
         }
     }
 }
+
+// 超声回声+编码器
 void GPIOAIntHandler(void)
 {
     uint32_t u32IntStatus = GPIOIntStatus(GPIO_PORTA_BASE, 0);
@@ -292,6 +294,81 @@ void GPIOAIntHandler(void)
             // sprintf(distanceText, "distance: %d\r\n", initCount);
             // sendMsgBySerial(distanceText);
             TimerEnable(TIMER2_BASE, TIMER_A);
+        }
+    }
+
+    if (u32IntStatus & GPIO_INT_PIN_4)
+    {
+        if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_4) == 0)
+        {
+            if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5) == 0)
+                EncoderLeft++;
+            else
+                EncoderLeft--;
+        }
+        else
+        {
+            if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5) == GPIO_PIN_5)
+                EncoderLeft++;
+            else
+                EncoderLeft--;
+        }
+    }
+    if (u32IntStatus & GPIO_INT_PIN_5)
+    {
+        if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_5) == 0)
+        {
+            if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_4) == GPIO_PIN_4)
+                EncoderLeft++;
+            else
+                EncoderLeft--;
+        }
+        else
+        {
+            if (GPIOPinRead(GPIO_PORTA_BASE, GPIO_PIN_4) == 0)
+                EncoderLeft++;
+            else
+                EncoderLeft--;
+        }
+    }
+}
+// 编码器
+void GPIOEIntHandler(void)
+{
+    uint32_t u32IntStatus = GPIOIntStatus(GPIO_PORTE_BASE, 0);
+    GPIOIntClear(GPIO_PORTE_BASE, u32IntStatus);
+    if (u32IntStatus & GPIO_INT_PIN_2)
+    {
+        if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_2) == 0)
+        {
+            if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_3) == 0)
+                EncoderRight++;
+            else
+                EncoderRight--;
+        }
+        else
+        {
+            if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_3) == GPIO_PIN_3)
+                EncoderRight++;
+            else
+                EncoderRight--;
+        }
+    }
+    if (u32IntStatus & GPIO_INT_PIN_3)
+    {
+        if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_3) == 0)
+        {
+            if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_2) == GPIO_PIN_2)
+                EncoderRight++;
+            else
+                EncoderRight--;
+        }
+        else
+        {
+            if (GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_2) == 0)
+                EncoderRight++;
+            else
+                EncoderRight--;
         }
     }
 }

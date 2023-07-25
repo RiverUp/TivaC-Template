@@ -32,7 +32,6 @@
 #include "driverlib/pwm.h"
 #include "driverlib/i2c.h"
 
-
 #include "Serial.h"
 #include "Flag.h"
 #include "BlueTooth.h"
@@ -44,17 +43,23 @@
 #include "JY62.h"
 #include "Hcsr04.h"
 #include "DelayStruct.h"
+#include "OLED.h"
+#include "Encoder.h"
+#include "Motor2.h"
+#include "BatteryVoltage.h"
 
-//中断优先级定义
-#define  USER_INT0  0x00
-#define  USER_INT1  0x20
-#define  USER_INT2  0x40
-#define  USER_INT3  0x60
-#define  USER_INT4  0x80
-#define  USER_INT5  0xA0
-//延时函数定义
-#define delayms(xms)	SysCtlDelay(xms*(80000/3)) /*ms级延时*/
-#define delayus(xus)	SysCtlDelay(xus*(80/3)) /*ms级延时*/
+// 中断优先级定义
+#define USER_INT0 0x00
+#define USER_INT1 0x20
+#define USER_INT2 0x40
+#define USER_INT3 0x60
+#define USER_INT4 0x80
+#define USER_INT5 0xA0
+// 延时函数定义
+#define delayms(xms) SysCtlDelay(xms * (80000 / 3)) /*ms级延时*/
+#define delayus(xus) SysCtlDelay(xus * (80 / 3))    /*ms级延时*/
 
+#define RIGHT 0
+#define LEFT 1
 
 #endif

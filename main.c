@@ -27,19 +27,26 @@ int main(void)
 	initSerial();
 	initBlueTooth();
 	initKeys();
-	initMotor();
+	//initMotor();
+	initMotor2();
 	initJY62();
 	initOpenmvTrack();
 	initDelayStructs();
-	initHcsr04();
+	//initHcsr04();
+	initEncoder();
+	// OLED_I2C_Init();
+	// OLED_Init();
+	// OLED_Clear();
 	initControl();
 
-	triggerHcsr04();
+	// triggerHcsr04();
 
 	// turnOnMotor();
 	//  主循环里进行各个事情的轮询
 	while (1)
 	{
+		//		OLED_YX(2, 0);
+		//		OLED_Write_String("hello");
 		// 处理电脑串口指令
 		if (SerialCompleteFlag)
 		{
@@ -79,7 +86,7 @@ int main(void)
 			if (Key1SinglePressedFlag)
 			{
 				// CrossPassDelayFlag.flag = true;
-				turnOnMotor();
+				turnOnMotor2();
 
 				Key1SinglePressedFlag = false;
 			}
@@ -92,7 +99,7 @@ int main(void)
 			// key2单击
 			if (Key2SinglePressedFlag)
 			{
-				turnOffMotor();
+				turnOffMotor2();
 
 				Key2SinglePressedFlag = false;
 			}
@@ -123,7 +130,7 @@ int main(void)
 
 			OpenmvTrackReadOnceFlag = false;
 		}
-		//超声回传了一次
+		// 超声回传了一次
 		if (CountDistanceEndFlag)
 		{
 			char distanceText[40];

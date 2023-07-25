@@ -12,7 +12,8 @@
         "openmvtrack.h": "c",
         "math.h": "c",
         "stdbool.h": "c",
-        "lights.h": "c"
+        "lights.h": "c",
+        "motor.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
