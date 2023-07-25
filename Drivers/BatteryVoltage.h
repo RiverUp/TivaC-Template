@@ -3,6 +3,8 @@
 
 #include "main.h"
 
+extern float Voltage;
+
 void initBattery();
 float getBatteryVoltage(void);
 

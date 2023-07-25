@@ -36,12 +36,12 @@ void Control()
     // Motor_Right = limitPWM(Motor_Right, 1000, -1000);
 
     // setPWM(Motor_Left, Motor_Right);
+    
+    while (!VoltageSampleCompleteFlag)
+        ;
+    VoltageSampleCompleteFlag = false;
     char text[100];
-    sprintf(text, "left:%d\r\n", EncoderLeft);
-    sendMsgBySerial(text);
-    // OLED_YX(0,0);
-    // OLED_Write_String(text);
-    sprintf(text, "right:%d\r\n", EncoderRight);
+    sprintf(text, "volt:%d\r\n", (int)Voltage);
     sendMsgBySerial(text);
     int encoderRight = readEncoder(RIGHT);
     int encoderLeft = readEncoder(LEFT);
@@ -59,7 +59,7 @@ int velocity(int encoderLeft, int encoderRight)
 {
     static float general_bias, last_bias, velocity, integral;
 
-    float bias = Target_Velocity - (encoderLeft + encoderRight)/2;
+    float bias = Target_Velocity - (encoderLeft + encoderRight) / 2;
     general_bias = 0.16 * bias + 0.84 * last_bias;
     last_bias = general_bias;
     integral += general_bias;

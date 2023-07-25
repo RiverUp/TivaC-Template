@@ -9,7 +9,8 @@ bool Key2DoublePressedFlag;
 bool AngleReadOnceFlag;
 bool OpenmvTrackReadOnceFlag;
 bool RotateLeftFlag, RotateRightFlag;
-bool CountDistanceBeginFlag,CountDistanceEndFlag;
+bool CountDistanceBeginFlag, CountDistanceEndFlag;
+bool VoltageSampleCompleteFlag;
 
 struct DelayStruct CrossPassDelayFlag;
 

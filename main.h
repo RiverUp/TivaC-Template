@@ -19,6 +19,7 @@
 #include "inc/hw_qei.h"
 #include "inc/tm4c123gh6pm.h"
 
+#include "driverlib/adc.h"
 #include "driverlib/debug.h"
 #include "driverlib/fpu.h"
 #include "driverlib/gpio.h"

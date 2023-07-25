@@ -27,17 +27,18 @@ int main(void)
 	initSerial();
 	initBlueTooth();
 	initKeys();
-	//initMotor();
+	// initMotor();
 	initMotor2();
 	initJY62();
 	initOpenmvTrack();
 	initDelayStructs();
-	//initHcsr04();
+	// initHcsr04();
 	initEncoder();
 	// OLED_I2C_Init();
 	// OLED_Init();
 	// OLED_Clear();
 	initControl();
+	initBattery();
 
 	// triggerHcsr04();
 
@@ -48,6 +49,7 @@ int main(void)
 		//		OLED_YX(2, 0);
 		//		OLED_Write_String("hello");
 		// 处理电脑串口指令
+		ADCProcessorTrigger(ADC0_BASE, 3);
 		if (SerialCompleteFlag)
 		{
 			if (!strcmp(serialDataBuffer, "on"))

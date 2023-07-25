@@ -12,6 +12,7 @@ extern bool OpenmvTrackReadOnceFlag;
 extern bool RotateLeftFlag, RotateRightFlag;
 extern bool CountDistanceBeginFlag, CountDistanceEndFlag;
 extern struct DelayStruct CrossPassDelayFlag;
+extern bool VoltageSampleCompleteFlag;
 
 void countDelay(struct DelayStruct *delayStruct);
 void createDelayStruct(struct DelayStruct *delayStruct, char *name, int times);

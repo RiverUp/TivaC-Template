@@ -50,6 +50,7 @@ extern void Timer1AIntHandler(void);
 extern void Timer2AIntHandler(void);
 extern void GPIOAIntHandler(void);
 extern void GPIOEIntHandler(void);
+extern void ADCSeq3Handler(void);
 // extern void PWM0Gen0IntHandler(void);
 
 //*****************************************************************************
@@ -110,7 +111,7 @@ void (*const g_pfnVectors[])(void) =
         IntDefaultHandler, // ADC Sequence 0
         IntDefaultHandler, // ADC Sequence 1
         IntDefaultHandler, // ADC Sequence 2
-        IntDefaultHandler, // ADC Sequence 3
+        ADCSeq3Handler,    // ADC Sequence 3
         IntDefaultHandler, // Watchdog timer
         Timer0AIntHandler, // Timer 0 subtimer A
         IntDefaultHandler, // Timer 0 subtimer B

@@ -39,7 +39,7 @@
 
 #ifndef __DRIVERLIB_ADC_H__
 #define __DRIVERLIB_ADC_H__
-
+#include "stdbool.h"
 //*****************************************************************************
 //
 // If building with a C++ compiler, make all of the definitions in this header

@@ -372,3 +372,10 @@ void GPIOEIntHandler(void)
         }
     }
 }
+void ADCSeq3Handler(void)
+{
+    ADCIntClear(ADC0_BASE, 3);
+
+    Voltage=getBatteryVoltage();
+    VoltageSampleCompleteFlag=true;
+}

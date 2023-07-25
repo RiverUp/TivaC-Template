@@ -13,7 +13,9 @@
         "math.h": "c",
         "stdbool.h": "c",
         "lights.h": "c",
-        "motor.h": "c"
+        "motor.h": "c",
+        "hw_adc.h": "c",
+        "flag.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
