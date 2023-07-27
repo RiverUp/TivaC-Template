@@ -10,6 +10,8 @@ Root->
 
     |Driverlib：tivasdk
 
+`main()`的while主循环中进行轮询
+
 ## 中断
 
 在Drivers路径下的Interrupt文件中
@@ -56,3 +58,34 @@ Root->
 | Sg90 | TivaC123 |
 | ---- | -------- |
 | PWM  | PD1      |
+
+### JY62（角度传感器）
+
+| JY62 | TivaC123 |
+| ---- | -------- |
+| RX   | PE5      |
+| TX   | PE4      |
+
+### OLED
+
+| OLED | TivaC123 |
+| ---- | -------- |
+| SCL  | PD0      |
+| SDA  | PD1      |
+
+### Openmv（循迹）
+
+| Openmv | TivaC123 |
+| ------ | -------- |
+| RX     | PD7      |
+| TX     | PD6      |
+
+### D302A（步进电机驱动）
+
+| D302A | TivaC123 |
+| ----- | -------- |
+| 输出  | PC4，PB6 |
+| 使能  | PA2      |
+| 方向  | PD2，PD3 |
+|       |          |
+|       |          |
