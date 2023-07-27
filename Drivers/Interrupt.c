@@ -289,10 +289,6 @@ void GPIOAIntHandler(void)
         else
         {
             TimerLoadSet(TIMER2_BASE, TIMER_A, (SysCtlClockGet() / (4 * 100)));
-            // int initCount = TimerValueGet(TIMER2_BASE, TIMER_A);
-            // char distanceText[40];
-            // sprintf(distanceText, "distance: %d\r\n", initCount);
-            // sendMsgBySerial(distanceText);
             TimerEnable(TIMER2_BASE, TIMER_A);
         }
     }

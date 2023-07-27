@@ -127,30 +127,3 @@ int key2Pressed(int time)
     }
     return 0;
 }
-// int key1Pressed()
-// {
-//     static int judge_state;
-//     switch (judge_state)
-//     {
-//     case 0:
-//         if (KEY1 == 0)
-//             judge_state = 1;
-//         break;
-//     case 1:
-//         if (KEY1 == 0)
-//         {
-//             judge_state = 2;
-//             return 1;
-//         }
-//         else
-//             judge_state = 0;
-//         break;
-//     case 2:
-//         if (KEY1)
-//             judge_state = 0;
-//         break;
-//     default:
-//         break;
-//     }
-//     return 0;
-// }

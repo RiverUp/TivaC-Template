@@ -6,14 +6,12 @@ void initMotor2()
     SysCtlPWMClockSet(SYSCTL_PWMDIV_4);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
-    // SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
     GPIOPinTypePWM(GPIO_PORTC_BASE, GPIO_PIN_4);
     GPIOPinTypePWM(GPIO_PORTC_BASE, GPIO_PIN_5);
     GPIOPinConfigure(GPIO_PC4_M0PWM6);
     GPIOPinConfigure(GPIO_PC5_M0PWM7);
     PWMGenConfigure(PWM0_BASE, PWM_GEN_3,
                     PWM_GEN_MODE_DOWN | PWM_GEN_MODE_NO_SYNC);
-    // 1mhz
     PWMGenPeriodSet(PWM0_BASE, PWM_GEN_3, 1000);
     PWMOutputState(PWM0_BASE, PWM_OUT_6_BIT, true);
     PWMOutputState(PWM0_BASE, PWM_OUT_7_BIT, true);
@@ -25,9 +23,6 @@ void initMotor2()
                                                                                                                //                   GPIO_PIN_6 | GPIO_PIN_7, GPIO_DIR_MODE_OUT);
 
     GPIOPinTypeGPIOOutput(GPIO_PORTA_BASE, GPIO_PIN_2);
-    // GPIODirModeSet(GPIO_PORTA_BASE, GPIO_PIN_2, GPIO_DIR_MODE_OUT);
-    // GPIOPadConfigSet(GPIO_PORTA_BASE,
-    //                  GPIO_PIN_2, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD);
     GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, 0);
 }
 
