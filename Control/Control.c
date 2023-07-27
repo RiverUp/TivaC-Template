@@ -40,9 +40,9 @@ void Control()
     while (!VoltageSampleCompleteFlag)
         ;
     VoltageSampleCompleteFlag = false;
-    char text[100];
-    sprintf(text, "volt:%d\r\n", (int)Voltage);
-    sendMsgBySerial(text);
+    // char text[100];
+    // sprintf(text, "volt:%d\r\n", (int)Voltage);
+    // sendMsgBySerial(text);
     int encoderRight = readEncoder(RIGHT);
     int encoderLeft = readEncoder(LEFT);
     Velocity_PWM = velocity(encoderLeft, encoderRight);

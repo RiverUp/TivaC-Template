@@ -39,10 +39,11 @@ int main(void)
 	// OLED_Clear();
 	initControl();
 	initBattery();
+	initSg90();
 
 	// triggerHcsr04();
 
-	// turnOnMotor();
+	rotateSg90(0);
 	//  主循环里进行各个事情的轮询
 	while (1)
 	{
@@ -58,6 +59,15 @@ int main(void)
 					turnOffLights(Green);
 				else
 					turnOnLights(Green);
+			}
+			if (serialDataBuffer[0] == 'r')
+			{
+				int a, b, c;
+				a = serialDataBuffer[1] - '0';
+				b = serialDataBuffer[2] - '0';
+				c = serialDataBuffer[3] - '0';
+				int angle = 100 * a + 10 * b + c;
+				rotateSg90(angle);
 			}
 			sendMsgBySerial(serialDataBuffer);
 

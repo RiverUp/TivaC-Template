@@ -48,6 +48,7 @@
 #include "Encoder.h"
 #include "Motor2.h"
 #include "BatteryVoltage.h"
+#include "Sg90.h"
 
 // 中断优先级定义
 #define USER_INT0 0x00
