@@ -48,7 +48,7 @@ void turnOnMotor(void)
 {
     GPIOPinWrite(GPIO_PORTA_BASE, GPIO_PIN_2, GPIO_PIN_2); // PA2输出高电平
 }
-// 之前的最大值相当于现在设置10000
+
 void setPWM(int left, int right)
 {
     // 正负决定方向
@@ -61,16 +61,16 @@ void setPWM(int left, int right)
     else
         GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);
 
-    int pwm_left = abs(left);
-    int pwm_right = abs(right);
+    int pwm_left = 10000000 / abs(left);
+    int pwm_right = 10000000 / abs(right);
     // 设置PWM0模块的第三个发生器每个计数周期为2000个数，而PWM时钟为10MHz，
     // 那么PWM输出频率就是10^7/2000为5KHz，但是这个数为16位寄存器，不能超过65535
     if (pwm_right != 0)
-        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_3, SysCtlPWMClockGet() / pwm_right);
+        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_3,  pwm_right);
     else
         PWMGenPeriodSet(PWM0_BASE, PWM_GEN_3, 0);
     if (pwm_left != 0)
-        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_0, SysCtlPWMClockGet() / pwm_left);
+        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_0,  pwm_left);
     else
         PWMGenPeriodSet(PWM0_BASE, PWM_GEN_0, 0);
 

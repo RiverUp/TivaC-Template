@@ -16,5 +16,6 @@ void passCross();
 int rotateTurn();
 void setRotateTarget(int angle, bool direction, int current_yaw);
 int velocity(int encoderLeft, int encoderRight);
+void limitDistance(int distance);
 
 #endif // !__CONTROL_H

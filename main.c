@@ -25,32 +25,32 @@ int main(void)
 	initLights();
 
 	initSerial();
-	initBlueTooth();
+	// initBlueTooth();
 	initKeys();
-	// initMotor();
-	initMotor2();
+	initMotor();
+	// initMotor2();
+	// initEncoder();
 	initJY62();
 	initOpenmvTrack();
 	initDelayStructs();
-	// initHcsr04();
-	initEncoder();
+	initHcsr04();
 	// OLED_I2C_Init();
 	// OLED_Init();
 	// OLED_Clear();
 	initControl();
-	initBattery();
-	initSg90();
+	// initBattery();
+	// initSg90();
 
-	// triggerHcsr04();
+	triggerHcsr04();
 
-	rotateSg90(0);
-	//  主循环里进行各个事情的轮询
+	// rotateSg90(0);
+	//   主循环里进行各个事情的轮询
 	while (1)
 	{
-		//		OLED_YX(2, 0);
-		//		OLED_Write_String("hello");
+		//		OLED_YX(1, 0);
+		//		OLED_Write_String("hellmm");
 		// 处理电脑串口指令
-		ADCProcessorTrigger(ADC0_BASE, 3);
+		// ADCProcessorTrigger(ADC0_BASE, 3);
 		if (SerialCompleteFlag)
 		{
 			if (!strcmp(serialDataBuffer, "on"))
@@ -98,7 +98,7 @@ int main(void)
 			if (Key1SinglePressedFlag)
 			{
 				// CrossPassDelayFlag.flag = true;
-				turnOnMotor2();
+				turnOnMotor();
 
 				Key1SinglePressedFlag = false;
 			}
@@ -111,7 +111,7 @@ int main(void)
 			// key2单击
 			if (Key2SinglePressedFlag)
 			{
-				turnOffMotor2();
+				turnOffMotor();
 
 				Key2SinglePressedFlag = false;
 			}
@@ -136,9 +136,9 @@ int main(void)
 		// 接受到一次循迹openmv数据包
 		if (OpenmvTrackReadOnceFlag)
 		{
-			char trackText[40];
-			sprintf(trackText, "trackBias: %d", Track_Bias);
-			sendMsgBySerial(trackText);
+			// char trackText[40];
+			// sprintf(trackText, "trackBias: %d", Track_Bias);
+			// sendMsgBySerial(trackText);
 
 			OpenmvTrackReadOnceFlag = false;
 		}
