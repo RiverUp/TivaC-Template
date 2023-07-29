@@ -25,18 +25,18 @@ int main(void)
 	initLights();
 
 	initSerial();
-	// initBlueTooth();
+	initBlueTooth();
 	initKeys();
 	initMotor();
 	// initMotor2();
 	// initEncoder();
 	initJY62();
-	initOpenmvTrack();
+	// initOpenmvTrack();
 	initDelayStructs();
-	initHcsr04();
-	// OLED_I2C_Init();
-	// OLED_Init();
-	// OLED_Clear();
+	// initHcsr04();
+	//  OLED_I2C_Init();
+	//  OLED_Init();
+	//  OLED_Clear();
 	initControl();
 	// initBattery();
 	// initSg90();
@@ -60,6 +60,7 @@ int main(void)
 				else
 					turnOnLights(Green);
 			}
+			// 控制舵机旋转
 			if (serialDataBuffer[0] == 'r')
 			{
 				int a, b, c;
@@ -86,6 +87,39 @@ int main(void)
 				else
 					turnOnLights(Blue);
 			}
+			// 控制小车旋转
+			if (blueToothDataBuffer[0] == 'r')
+			{
+				int a, b, c;
+				a = blueToothDataBuffer[2] - '0';
+				b = blueToothDataBuffer[3] - '0';
+				c = blueToothDataBuffer[4] - '0';
+				int angle = 100 * a + 10 * b + c;
+				if (blueToothDataBuffer[1] == 'l')
+					setRotateTarget(angle, LEFT, Yaw);
+				else if (blueToothDataBuffer[1] == 'r')
+					setRotateTarget(angle, RIGHT, Yaw);
+			}
+			// 启动小车
+			if (!strcmp(blueToothDataBuffer, "start"))
+				turnOnMotor();
+			// 停止小车
+			if (!strcmp(blueToothDataBuffer, "stop"))
+				turnOffMotor();
+
+			if (blueToothDataBuffer[0] == 'v')
+			{
+				int a, b, c, d;
+				a = blueToothDataBuffer[2] - '0';
+				b = blueToothDataBuffer[3] - '0';
+				c = blueToothDataBuffer[4] - '0';
+				d = blueToothDataBuffer[5] - '0';
+				int speed = 1000 * a + 100 * b + 10 * c + d;
+				if (blueToothDataBuffer[1] == 'n')
+					speed = -speed;
+				Basic_Velocity = speed;
+			}
+
 			sendMsgByBT(blueToothDataBuffer);
 
 			BluetoothCompleteFlag = false;
@@ -99,6 +133,7 @@ int main(void)
 			{
 				// CrossPassDelayFlag.flag = true;
 				turnOnMotor();
+				setRotateTarget(90, RIGHT, Yaw);
 
 				Key1SinglePressedFlag = false;
 			}
@@ -126,10 +161,10 @@ int main(void)
 		// 接受到一次jy62数据包
 		if (AngleReadOnceFlag)
 		{
-			//			char angleText[40];
-			//			sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
-			//					(int)Roll, (int)Pitch, (int)Yaw);
-			//			sendMsgBySerial(angleText);
+			 char angleText[40];
+			 sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+			 		(int)Roll, (int)Pitch, (int)Yaw);
+			 sendMsgBySerial(angleText);
 
 			AngleReadOnceFlag = false;
 		}

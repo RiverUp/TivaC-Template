@@ -1,7 +1,7 @@
 #include "Control.h"
 
 int Track_Bias, Target_Angle;
-float Basic_Velocity = 6000;
+float Basic_Velocity = 0;
 float Target_Velocity = -10;
 float Target_Distance = 25;
 int Velocity_PWM;
@@ -28,7 +28,7 @@ void Control()
     //     passCross();
 
     // Track_Bias为正，，左轮加速
-    limitDistance(distance);
+    // limitDistance(distance);
     Track_Turn_PWM = trackTurn(Track_Bias);
     Velocity_PWM = Basic_Velocity;
     Rotate_Turn_PWM = rotateTurn();
@@ -77,16 +77,16 @@ void limitDistance(int distance)
     static float general_bias, last_bias, pre_bias, derivative;
     general_bias = distance - Target_Distance;
     derivative = general_bias - 2 * last_bias + pre_bias;
-    float increment = derivative * Distance_Kd/2000 + general_bias * Distance_Kp/2000;
+    float increment = derivative * Distance_Kd / 2000 + general_bias * Distance_Kp / 2000;
     pre_bias = last_bias;
     last_bias = general_bias;
 
-    if(distance>40||distance==0)
-        increment=0;
+    if (distance > 40 || distance == 0)
+        increment = 0;
 
     Basic_Velocity += increment;
 
-    Basic_Velocity=limitPWM(Basic_Velocity,7000,2000);
+    Basic_Velocity = limitPWM(Basic_Velocity, 7000, 2000);
 }
 
 int trackTurn(float bias)
@@ -109,10 +109,9 @@ int rotateTurn()
         general_bias = temp * 0.16 + 0.84 * last_bias;
     if (RotateRightFlag || RotateLeftFlag)
     {
-        if (general_bias < 4)
+        if (general_bias < 3)
         {
             RotateRightFlag = RotateLeftFlag = false;
-            Basic_Velocity = 500;
             return 0;
         }
     }
@@ -120,12 +119,12 @@ int rotateTurn()
     // 旋转的时候不循迹
     if (RotateLeftFlag)
     {
-        turn = -general_bias * Rotate_Turn_Kp / 20;
+        turn = -general_bias * Rotate_Turn_Kp / 70;
         Track_Turn_PWM = 0;
     }
     else if (RotateRightFlag)
     {
-        turn = general_bias * Rotate_Turn_Kp / 20;
+        turn = general_bias * Rotate_Turn_Kp / 70;
         Track_Turn_PWM = 0;
     }
     else
@@ -148,20 +147,20 @@ void passCross()
 
 void setRotateTarget(int angle, bool direction, int current_yaw)
 {
-    if (direction == RIGHT)
+    if (direction == LEFT)
     {
         if (current_yaw + angle >= 180)
             Target_Angle = current_yaw + angle - 360;
         else
             Target_Angle = current_yaw + angle;
-        RotateRightFlag = true;
+        RotateLeftFlag = true;
     }
-    if (direction == LEFT)
+    if (direction == RIGHT)
     {
         if (current_yaw - angle < -180)
             Target_Angle = current_yaw - angle + 360;
         else
             Target_Angle = current_yaw - angle;
-        RotateLeftFlag = true;
+        RotateRightFlag = true;
     }
 }
