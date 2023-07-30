@@ -6,7 +6,13 @@ Root->
 
     |Control：电机控制逻辑
 
-    |Drivers：硬件底层驱动、中断回调、各种标志
+    |Drivers->
+
+    |Flag:各种标志硬件
+
+    |Interrupt：中断回调
+
+    |其余：硬件底层驱动
 
     |Driverlib：tivasdk
 
@@ -95,7 +101,16 @@ Root->
 | RX   | PB1      |
 | TX   | PB0      |
 
+### OLED（SSD1306)
+
+| OLED | TivaC123 |
+| ---- | -------- |
+| SCL  | PD0      |
+| SDA  | PD1      |
+
 ## 蓝牙控制指令
+
+*每个指令都以字符x结尾，作为命令结束标识*
 
 | CMD        | Description         | Example                    |
 | ---------- | ------------------- | -------------------------- |
