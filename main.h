@@ -44,11 +44,12 @@
 #include "JY62.h"
 #include "Hcsr04.h"
 #include "DelayStruct.h"
-#include "OLED.h"
+#include "Oled.h"
 #include "Encoder.h"
 #include "Motor2.h"
 #include "BatteryVoltage.h"
 #include "Sg90.h"
+#include "Beep.h"
 
 // 中断优先级定义
 #define USER_INT0 0x00

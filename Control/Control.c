@@ -1,7 +1,7 @@
 #include "Control.h"
 
 int Track_Bias, Target_Angle;
-float Basic_Velocity = 0;
+float Basic_Velocity = 6000;
 float Target_Velocity = -10;
 float Target_Distance = 25;
 int Velocity_PWM;

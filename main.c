@@ -24,6 +24,11 @@ int main(void)
 	// 配置小灯用于测试
 	initLights();
 
+	initOled();
+	clearOled();
+
+	//	 OLED_Init();
+	//	 OLED_Clear();
 	initSerial();
 	initBlueTooth();
 	initKeys();
@@ -31,24 +36,23 @@ int main(void)
 	// initMotor2();
 	// initEncoder();
 	initJY62();
-	// initOpenmvTrack();
+	initOpenmvTrack();
 	initDelayStructs();
 	// initHcsr04();
-	//  OLED_I2C_Init();
-	//  OLED_Init();
-	//  OLED_Clear();
 	initControl();
 	// initBattery();
 	// initSg90();
+	initBeep();
 
-	triggerHcsr04();
+	// triggerHcsr04();
 
 	// rotateSg90(0);
 	//   主循环里进行各个事情的轮询
 	while (1)
 	{
-		//		OLED_YX(1, 0);
-		//		OLED_Write_String("hellmm");
+
+		setOledCursor(2, 0);
+		showStringOnOled("hello");
 		// 处理电脑串口指令
 		// ADCProcessorTrigger(ADC0_BASE, 3);
 		if (SerialCompleteFlag)
@@ -133,13 +137,14 @@ int main(void)
 			{
 				// CrossPassDelayFlag.flag = true;
 				turnOnMotor();
-				setRotateTarget(90, RIGHT, Yaw);
 
 				Key1SinglePressedFlag = false;
 			}
 			// key1双击
 			if (Key1DoublePressedFlag)
 			{
+				sendMsgBySerial("k1dp");
+				ring(1000);
 
 				Key1DoublePressedFlag = false;
 			}
@@ -153,7 +158,8 @@ int main(void)
 			// key2双击
 			if (Key2DoublePressedFlag)
 			{
-				sendMsgBySerial("k2dp");
+				setOledCursor(1, 0);
+				showStringOnOled("k2dp");
 
 				Key2DoublePressedFlag = false;
 			}
@@ -161,19 +167,21 @@ int main(void)
 		// 接受到一次jy62数据包
 		if (AngleReadOnceFlag)
 		{
-			 char angleText[40];
-			 sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
-			 		(int)Roll, (int)Pitch, (int)Yaw);
-			 sendMsgBySerial(angleText);
+			char angleText[40];
+			sprintf(angleText, "Roll: %d Pitch: %d Yaw: %d\r\n",
+					(int)Roll, (int)Pitch, (int)Yaw);
+			sendMsgBySerial(angleText);
 
 			AngleReadOnceFlag = false;
 		}
 		// 接受到一次循迹openmv数据包
 		if (OpenmvTrackReadOnceFlag)
 		{
-			// char trackText[40];
-			// sprintf(trackText, "trackBias: %d", Track_Bias);
-			// sendMsgBySerial(trackText);
+			char trackText[40];
+			sprintf(trackText, "trackBias: %d", Track_Bias);
+			setOledCursor(0,0);
+			showStringOnOled(trackText);
+			sendMsgByBT(trackText);
 
 			OpenmvTrackReadOnceFlag = false;
 		}
