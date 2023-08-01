@@ -24,8 +24,8 @@ int main(void)
 	// 配置小灯用于测试
 	initLights();
 
-	initOled();
-	clearOled();
+	// initOled();
+	// clearOled();
 
 	//	 OLED_Init();
 	//	 OLED_Clear();
@@ -41,18 +41,21 @@ int main(void)
 	// initHcsr04();
 	initControl();
 	// initBattery();
-	// initSg90();
+	//initSg90();
 	initBeep();
+	initE2PRom();
 
 	// triggerHcsr04();
 
-	// rotateSg90(0);
+	//rotateSg90(0);
 	//   主循环里进行各个事情的轮询
 	while (1)
 	{
-
-		setOledCursor(2, 0);
-		showStringOnOled("hello");
+		char text[20];
+		sprintf(text, "high_thre:%d\r\n",ee_gray.high_thre);
+		sendMsgBySerial(text);
+		// setOledCursor(2, 0);
+		// showStringOnOled("hello");
 		// 处理电脑串口指令
 		// ADCProcessorTrigger(ADC0_BASE, 3);
 		if (SerialCompleteFlag)
@@ -135,6 +138,9 @@ int main(void)
 			// key1单击
 			if (Key1SinglePressedFlag)
 			{
+				ee_gray.high_thre++;
+				EEPROMProgram((uint32_t *)&ee_gray,GRAYTHRESHOLDADDR,sizeof(ee_gray));
+
 				// CrossPassDelayFlag.flag = true;
 				turnOnMotor();
 
@@ -158,8 +164,8 @@ int main(void)
 			// key2双击
 			if (Key2DoublePressedFlag)
 			{
-				setOledCursor(1, 0);
-				showStringOnOled("k2dp");
+				// setOledCursor(1, 0);
+				// showStringOnOled("k2dp");
 
 				Key2DoublePressedFlag = false;
 			}
@@ -179,8 +185,8 @@ int main(void)
 		{
 			char trackText[40];
 			sprintf(trackText, "trackBias: %d", Track_Bias);
-			setOledCursor(0,0);
-			showStringOnOled(trackText);
+			// setOledCursor(0,0);
+			// showStringOnOled(trackText);
 			sendMsgByBT(trackText);
 
 			OpenmvTrackReadOnceFlag = false;

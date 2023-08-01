@@ -94,6 +94,9 @@ int trackTurn(float bias)
     static float turn, general_bias, last_bias;
     general_bias = 0.16 * bias + 0.84 * last_bias;
 
+    if (bias > 35 || bias < -35)
+        general_bias *= 1.7;
+
     turn = general_bias * Track_Turn_Kp / 10;
 
     return turn;

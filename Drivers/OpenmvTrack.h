@@ -4,5 +4,6 @@
 #include "main.h"
 
 void initOpenmvTrack();
+void sendMsgToOpenmvTrack(char *msg);
 
 #endif // !__OPENMVTRACK_H

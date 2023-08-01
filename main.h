@@ -32,6 +32,7 @@
 #include "driverlib/uart.h"
 #include "driverlib/pwm.h"
 #include "driverlib/i2c.h"
+#include "driverlib/eeprom.h"
 
 #include "Serial.h"
 #include "Flag.h"
@@ -50,6 +51,7 @@
 #include "BatteryVoltage.h"
 #include "Sg90.h"
 #include "Beep.h"
+#include "EEPRom.h"
 
 // 中断优先级定义
 #define USER_INT0 0x00

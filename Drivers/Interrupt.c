@@ -150,6 +150,7 @@ void UART2IntHandler(void)
                         }
                     }
                     OpenmvTrackReadOnceFlag = true;
+                    sendMsgToOpenmvTrack(RxBuffer1);
                     // Ci检测是否为路口,计数经过了多少个路口
                 }
                 RxFlag1 = 0;
@@ -372,6 +373,6 @@ void ADCSeq3Handler(void)
 {
     ADCIntClear(ADC0_BASE, 3);
 
-    Voltage=getBatteryVoltage();
-    VoltageSampleCompleteFlag=true;
+    Voltage = getBatteryVoltage();
+    VoltageSampleCompleteFlag = true;
 }

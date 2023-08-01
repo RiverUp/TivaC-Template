@@ -4,8 +4,7 @@
 void initMotor(void)
 {
     // pwm
-    // 因为设置了时钟总线是40MHz，所以在这里分一下频设置为4分频，那么PWM时钟就是10MHz
-    SysCtlPWMClockSet(SYSCTL_PWMDIV_4);
+    SysCtlPWMClockSet(SYSCTL_PWMDIV_32);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOC);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
     SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);
@@ -61,8 +60,8 @@ void setPWM(int left, int right)
     else
         GPIOPinWrite(GPIO_PORTD_BASE, GPIO_PIN_3, GPIO_PIN_3);
 
-    int pwm_left = 10000000 / abs(left);
-    int pwm_right = 10000000 / abs(right);
+    int pwm_left = 1250000 / abs(left);
+    int pwm_right = 1250000 / abs(right);
     // 设置PWM0模块的第三个发生器每个计数周期为2000个数，而PWM时钟为10MHz，
     // 那么PWM输出频率就是10^7/2000为5KHz，但是这个数为16位寄存器，不能超过65535
     if (pwm_right != 0)
